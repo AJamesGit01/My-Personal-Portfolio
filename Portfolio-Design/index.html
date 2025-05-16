@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css" />
+
+<body class="bg-[#1C1C1C] text-white font-[Poppins]" id="body" class="bg-gray-100 text-gray-800 transition-colors duration-300">
+
+<script>
+  document.addEventListener('mousemove', (e) => {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = `${e.clientX}px`;
+    particle.style.top = `${e.clientY}px`;
+
+    document.body.appendChild(particle);
+
+    // Remove particle after animation
+    setTimeout(() => {
+      particle.remove();
+    }, 700); // Matches animation duration
+  });
+
+    const projectsGroup1 = [
+  {
+    title: "My Previous Portfolio",
+    desc: "This is my personal portfolio website, developed as part of my midterm exam for the Software Engineering course. It showcases my interest in web development.",
+    image: "assets/portfolio.png",
+    link: "https://ajamesgit01.github.io/Portfolio_Cosc-75/",
+    titleColor: "text-white",
+    descColor: "text-yellow-200",
+  },
+  {
+    title: "Personal Chrome Extension",
+    desc: "Lead Tracker is a Chrome Extension that lets users quickly save and manage website links, with storage in both local storage and Firebase.",
+    image: "assets/chrome-extension.png",
+    link: "https://ajamesgit01.github.io/BuildChrome_Extension/",
+    titleColor: "text-blue-500",
+    descColor: "text-green-200",
+  },
+  {
+    title: "RGB Password Generator",
+    desc: "A password generator web app built with HTML, CSS, and JavaScript. It creates strong, random passwords with a glowing RGB design and optional dark mode.",
+    image: "assets/passwordgen.png",
+    link: "https://ajamesgit01.github.io/RGB-PassGen/",
+    titleColor: "text-red-500",
+    descColor: "text-pink-300",
+  },
+];
+
+const projectsGroup2 = [
+  {
+    title: "A Basketball ScoreBoard",
+    desc: "The Basketball Scoreboard is a simple web app that lets two teams track their scores with buttons for 1, 2, or 3 points. It announces the winner at 21 points and resets automatically.",
+    image: "assets/basketball-scoreboard.png",
+    link: "https://ajamesgit01.github.io/Basketball-Scoreboard/",
+    titleColor: "text-orange-500",
+    descColor: "text-white-200",
+  },
+  {
+    title: "The People Encounter App",
+    desc: "The Passenger Encounter App is a simple counter tool that lets users track passenger counts, save entries, and reset the count to zero.",
+    image: "assets/counter.png",
+    link: "https://ajamesgit01.github.io/scrimbajs_people_encounterApp/",
+    titleColor: "text-teal-500",
+    descColor: "text-red-400",
+  },
+  {
+    title: "A Simple Black Jack Game",
+    desc: "The Blackjack Game is a simple web game where a player tries to get card totals close to 21 without going over. It’s a solo version based on blackjack rules.",
+    image: "assets/blackjack.png",
+    link: "https://ajamesgit01.github.io/simple-blackjack-game/",
+    titleColor: "text-red-500",
+    descColor: "text-blue-300",
+  },
+];
+
+const projectsGroup3 = [
+  {
+    title: "A To-Do List Application",
+    desc: "This is a simple To-Do List web app that allows users to manage their tasks efficiently. Users can add tasks, delete tasks, and reorder tasks to set priorities.",
+    image: "assets/to-do-list.png",
+    link: "https://a-to-do-list-app-git-main-allen-james-datuins-projects.vercel.app/",
+    titleColor: "text-yellow-500",
+    descColor: "text-teal-400",
+  },
+  {
+    title: "A Personal Color Picker App",
+    desc: "The Color Picker is a simple web app that lets users select colors and view their values. It helps users easily choose and copy colors for design or development purposes.",
+    image: "assets/color-picker.png",
+    link: "https://personal-color-picker-app-git-main-allen-james-datuins-projects.vercel.app/",
+    titleColor: "text-purple-500",
+    descColor: "text-red-400",
+  },
+  {
+    title: "A Digital Clock 'Application'",
+    desc: "The Digital Clock is a simple web-based application that displays the current time in real-time. It updates every second and is built using CSS and ReactJS",
+    image: "assets/Clock.png",
+    link: "https://a-digital-clock-app.vercel.app/",
+    titleColor: "text-green-500",
+    descColor: "text-white-200",
+  },
+];
+
+let currentPage = 0;
+const cardsPerPage = 3;
+
+// Combine all project groups into one array
+const allProjects = [...projectsGroup1, ...projectsGroup2, ...projectsGroup3];
+
+// Render the projects based on the current array slice
+function renderProjects(currentProjects) {
+  const gallery = document.getElementById('project-gallery');
+  gallery.innerHTML = currentProjects.map(project => `
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden transition-transform transform hover:scale-105 animate-rgb">
+      <img src="${project.image}" alt="${project.title}" class="w-full h-48 object-cover">
+      <div class="p-4">
+        <h4 class="text-3xl font-bold mb-4 ${project.titleColor} neon-solid-glow">${project.title}</h4>
+        <p class="mb-3 ${project.descColor} neon-solid-glow">${project.desc}</p>
+        <a href="${project.link}" target="_blank" class="text-blue-500 font-medium hover:underline neon-solid-glow">View Project</a>
+      </div>
+    </div>
+  `).join('');
+}
+
+function updateProjectView() {
+  const start = currentPage * cardsPerPage;
+  const end = start + cardsPerPage;
+  renderProjects(allProjects.slice(start, end));
+}
+
+function nextPage() {
+  if ((currentPage + 1) * cardsPerPage < allProjects.length) {
+    currentPage++;
+    updateProjectView();
+  }
+}
+
+function prevPage() {
+  if (currentPage > 0) {
+    currentPage--;
+    updateProjectView();
+  }
+}
+
+// Initialize view on page load
+document.addEventListener('DOMContentLoaded', updateProjectView);
+
+</script>
+
+
+<!-- Header -->
+<!-- Header -->
+<header class="fixed top-0 left-0 w-full bg-[#2A2A2A] shadow-md px-6 py-4 flex items-center justify-end z-50">
+  <div class="flex items-center gap-4">
+    <!-- Hamburger Button -->
+    <button onclick="toggleMobileMenu()">
+      <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </div>
+</header>
+
+
+      <!-- Slide-In Sidebar Menu -->
+<div id="mobileSidebar" class="fixed top-0 right-0 h-full w-1/2 md:w-64 text-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out z-50 animate-rgb">
+  <div class="flex justify-between items-center px-4 py-4 border-b border-white">
+    <h2 class="text-lg font-bold animate-link">Menu</h2>
+
+    <!-- X Close Button -->
+    <button onclick="toggleMobileMenu()">
+      <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <ul class="flex flex-col p-4 space-y-4">
+    <li><a href="#home" class="animate-link">Home</a></li>
+    <li><a href="#about" class="animate-link">About</a></li>
+    <li><a href="#experience" class="animate-link">Experiences</a></li>
+    <li><a href="#projects" class="animate-link">Projects</a></li>
+    <li><a href="#insights" class="animate-link">Insights</a></li>
+    <li><a href="#goals" class="animate-link">Goals</a></li>
+    <li><a href="#resume" class="animate-link">Resume</a></li>
+    <li><a href="#contact" class="animate-link">Contact</a></li>
+  </ul>
+</div>
+ 
+    <!-- Home -->
+    <section id="home" class="text-center py-20 animate-rgb bg-gradient-to-r from-red-500 via-green-500 to-blue-500 bg-[length:400%_400%] text-white">
+  
+      <!-- Profile Image -->
+      <img 
+        src="profile.jpg" 
+        alt="Allen James Datuin" 
+        class="mx-auto w-40 h-40 rounded-full border-4 border-white shadow-lg mb-6"
+      />
+    
+    <h2 class="typewriter text-2xl sm:text-3xl md:text-4xl font-bold mb-4 neon-solid-glow text-white leading-tight sm:leading-normal max-w-[90%] mx-auto text-center">
+      Hi, I'm Allen James Datuin
+    </h2>
+
+      
+      <p class="text-lg neon-solid-glow text-cyan-300">
+         Student | Gamer | Creator
+      </p>
+    </section>
+    
+<!-- About -->
+<section id="about" class="pt-16 px-4 pb-8 text-white animate-rgb ">
+  <div class="flex flex-col items-stretch gap-4 bg-[#2A2A2A] rounded-xl p-6 shadow-lg hover:shadow-xl transition max-w-3xl mx-auto border border-white/20">
+    <h2 class="text-3xl font-bold mb-4 text-center neon-solid-glow text-white">About Me</h2>
+    <p class="text-orange-300 text-lg leading-relaxed text-center neon-solid-glow text-cyan-300">
+     I’m a type of person who finds joy in the simple things in life whether it's enjoying a good meal, listening to music, or spending time doing activities I love. I consider myself a cheerful person, and I’m often observant, especially when something captures my interest.
+    </p>
+  </div>
+</section>
+
+    <section id="about" class="p-8 bg-[#1e1e1e] text-white relative overflow-hidden">
+      <div class="max-w-6xl mx-auto space-y-12">
+        <!-- Block 1 -->
+        <div class="flex flex-col md:flex-row items-center gap-8">
+          <!-- Image -->
+            <img 
+              src="about-3.jpg" 
+              alt="About Image" 
+              class="w-[430px] h-[500px] rounded-lg object-cover shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+            />
+
+          <!-- Text -->
+           <div class="w-full md:w-1/2 space-y-4 border-white p-4 bg-white rounded-xl shadow-lg animate-rgb">
+            <p class="text-yellow-200 text-lg leading-relaxed neon-solid-glow text-cyan-300">
+              I’m a passionate developer focused on building responsive web applications and user-friendly designs
+            </p>
+            <p class="text-green-300 text-lg leading-relaxed neon-solid-glow text-cyan-300">
+              I enjoy turning complex problems into simple, beautiful, and intuitive solutions.
+            </p>
+            <p class="text-blue-200 text-lg leading-relaxed neon-solid-glow text-cyan-300">
+              Always exploring new tech and improving performance through design and clean code.
+            </p>
+          </div>
+        </div>
+    
+        <!-- Block 2 (flipped for variation if you want) -->
+        <div class="flex flex-col md:flex-row-reverse items-center gap-8">
+          <!-- Image -->
+          <div class="w-full md:w-1/2">
+            <img 
+              src="about-2.jpg" 
+              alt="About Image" 
+              class="w-[430px] h-[500px] rounded-lg object-cover shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+            />
+          </div>
+          <!-- Text -->
+          <div class="w-full md:w-1/2 space-y-4 border-white p-4 bg-white rounded-xl shadow-lg animate-rgb">
+            <p class="text-yellow-200 text-lg leading-relaxed neon-solid-glow text-cyan-300">
+              I like to observe the world around me sometimes it's the smallest detail, that sparks the biggest ideas. 
+            </p>
+            <p class="text-green-300 text-lg leading-relaxed neon-solid-glow text-cyan-300">
+              I try to live life with that mindset focused, inspired, and always curious about what’s next.
+            </p>
+            <p class="text-blue-200 text-lg leading-relaxed neon-solid-glow text-cyan-300">
+              I'm the type of person who believes that passion, consistency, and curiosity are the keys to becoming better day by day.
+            </p>
+          </div>
+        </div>
+        
+      <!-- Block 3 (flipped for variation if you want) -->
+        <div class="flex flex-col md:flex-row items-center gap-8">
+          <!-- Image -->
+            <img 
+              src="familybg.jpg" 
+              alt="About Image" 
+              class="w-[430px] h-[500px] rounded-lg object-cover shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+            />
+
+          <!-- Text -->
+          <div class="w-full md:w-1/2 flex flex-col gap-4 p-4 bg-white rounded-xl shadow-lg animate-rgb">
+            <p class="text-yellow-200 text-lg leading-relaxed neon-solid-glow text-cyan-300">
+              I’m someone who’s truly thankful for the life I’m living. I feel blessed to have a supportive and loving family they’re my biggest inspiration and the reason I keep pushing forward. 
+            </p>
+            <p class="text-green-300 text-lg leading-relaxed neon-solid-glow text-cyan-300">
+              As the eldest in my family, I’ve naturally taken on a role of responsibility and guidance. It’s taught me a lot about patience, leadership, and looking out for the people I care about.
+            </p>
+            <p class="text-blue-200 text-lg leading-relaxed neon-solid-glow text-cyan-300">
+              I take pride in doing my best, not just for myself, but also for the ones who look up to me.
+            </p>
+          </div>
+        </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Skills, Trainings & Certificates -->
+<section id="experience" class="px-4 pb-16 text-white animate-rgb animated-border">
+  <h2 class="text-3xl font-bold mb-6 mt-12 text-center neon-solid-glow text-white">
+  Skills, Trainings & Certificates
+</h2>
+
+  <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+    <!-- Acquired Skills -->
+    <div class="bg-[#2A2A2A] rounded-xl p-6 shadow-lg hover:shadow-xl transition">
+      <h3 class="text-xl font-semibold mb-4 text-blue-400">Acquired Skills</h3>
+      <ul class="list-disc list-inside space-y-2 text-gray-200">
+        <li>HTML, CSS, JavaScript</li>
+        <li>Tailwind CSS & Bootstrap</li>
+        <li>ReactJS (Basic)</li>
+        <li>Git & GitHub</li>
+        <li>Responsive Web Design</li>
+      </ul>
+    </div>
+
+    <!-- Attended Trainings -->
+    <div class="bg-[#2A2A2A] rounded-xl p-6 shadow-lg hover:shadow-xl transition">
+      <h3 class="text-xl font-semibold mb-4 text-green-400">Attended Trainings</h3>
+      <ul class="list-disc list-inside space-y-2 text-gray-200">
+        <li>Web Development Webinars</li>
+        <li>ReactJS Course YT</li>
+        <li>Git & Version Control</li>
+        <ol class="mr-0 pl-6 text-blue-200"><a href="https://roadmap.sh/u/allenjamesdatuin" target="https://roadmap.sh/u/allenjamesdatuin">Roadmap.sh</a></ol>
+        <li>UI/UX Fundamentals</li>
+        <ol class="mr-0 pl-6 text-blue-200"><a href="https://roadmap.sh/u/allenjamesdatuin" target="https://roadmap.sh/u/allenjamesdatuin">Roadmap.sh</a></ol>
+      </ul>
+    </div>
+
+    <!-- Certificates -->
+    <div class="bg-[#2A2A2A] rounded-xl p-6 shadow-lg hover:shadow-xl transition">
+      <h3 class="text-xl font-semibold mb-4 text-purple-400">Certificates</h3>
+      <ul class="list-disc list-inside space-y-2 text-gray-200">
+        <li>Responsive Web Design</li>
+        <ol class="mr-0 pl-6 text-blue-200"><a href="https://web.dev/learn/css" target="https://web.dev/learn/css">web.dev</a></ol>
+        <li>JavaScript Courses</li>
+        <ol class="mr-0 pl-6 text-blue-200"><a href="https://scrimba.com/home" target="https://scrimba.com/home">scrimba.com</a></ol>
+        <li>Python Courses</li>
+        <ol class="mr-0 pl-6 text-blue-200"><a href="https://www.sololearn.com/en/profile/34058694" target="https://www.sololearn.com/en/profile/34058694">sololearn.com</a></ol>
+      </ul>
+    </div>
+  </div>
+</section>
+    
+  
+<section id="projects" class="relative p-8 bg-[#333333] text-white">
+  <h3 class="text-3xl font-bold text-center mb-8 neon-solid-glow text-white">My Projects</h3>
+
+  <div class="relative max-w-6xl mx-auto flex items-center justify-between gap-4">
+    <!-- Prev Button with spacing -->
+    <button onclick="prevPage()"
+      class="z-10 bg-white text-black text-3xl px-4 py-2 rounded-full shadow hover:bg-gray-300 transition ml-[-2rem]">
+      &lt;
+    </button>
+
+    <!-- Projects Container -->
+    <div id="project-gallery" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 flex-1 px-6">
+      <!-- Cards will be inserted here -->
+    </div>
+
+    <!-- Next Button with spacing -->
+    <button onclick="nextPage()"
+      class="z-10 bg-white text-black text-3xl px-4 py-2 rounded-full shadow hover:bg-gray-300 transition mr-[-2rem]">
+      &gt;
+    </button>
+  </div>
+</section>
+
+
+<!-- Challenges & Learnings -->
+<section id="insights" class="pt-16 px-4 pb-16 text-white animate-rgb">
+  <h2 class="text-3xl font-bold mb-6 text-center neon-solid-glow text-white">Challenges & Learnings</h2>
+
+  <div class="bg-[#2A2A2A] rounded-xl p-6 shadow-lg hover:shadow-xl transition max-w-4xl mx-auto border border-white/20">
+    <div class="space-y-6 text-gray-200">
+      <!-- Challenges Faced -->
+      <div>
+        <h3 class="text-xl font-semibold text-red-400 mb-2">Challenges I’ve Faced</h3>
+        <ul class="list-disc list-inside space-y-2">
+          <li>I’ve had to balance schoolwork with my personal projects and deadlines, I’ve learned how to adjust work better with others, and keep things moving.</li>
+          <li>One challenge I often face is dealing with reality when things don’t go my way, but I remind myself that these experiences help me growing.</li>
+          <li>Adapting to new tools and technology in school, especially under pressure, isn’t always easy, still do my best to manage stress and think things through.</li>
+          <li>I’m someone who tries to manage stress as best as I can, even when life gets a little overwhelming, I feel frustrated with how things turn out, especially when I’ve put in a lot of effort.</li>
+        </ul>
+      </div>
+
+      <!-- Life Learnings -->
+      <div>
+        <h3 class="text-xl font-semibold text-yellow-300 mb-2">Acquired Life Learnings</h3>
+        <ul class="list-disc list-inside space-y-2">
+          <li>I believe that mistakes are just part of the process. Even when things go wrong, I don’t give up easily. I try to see errors as stepping stones</li>
+          <li>With everything going on—whether it’s schoolwork, personal projects, or group work I’ve learned that managing my time well really matters. It helps me stay organized and deliver on what’s expected.</li>
+          <li>I’m always trying to learn new things, whether it’s a new tool, skill, or just something interesting. It helps me stay ready for whatever challenges come my way and gives me more confidence in what I do.</li>
+          <li>I’ve come to realize that patience and time are two of the most important things in my life. I try not to rush things I believe that good things take time.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Future Plans in Life -->
+<section id="goals" class="pt-16 px-4 pb-16 text-white animate-rgb">
+  <h2 class="text-3xl font-bold mb-6 text-center neon-solid-glow text-white">Future Plans in Life</h2>
+
+  <div class="bg-[#2A2A2A] rounded-xl p-6 shadow-lg hover:shadow-xl transition max-w-4xl mx-auto border border-white/20">
+    <div class="space-y-6 text-gray-200">
+      <!-- Personal Goals -->
+      <div>
+        <h3 class="text-xl font-semibold text-green-400 mb-2">Personal Goals</h3>
+        <ul class="list-disc list-inside space-y-2">
+          <li>Improve work-life balance and maintain consistent self-care routines.</li>
+          <li>Explore new hobbies and expand creativity outside of academics.</li>
+          <li>Build stronger relationships through better communication and empathy.</li>
+        </ul>
+      </div>
+
+      <!-- Professional Goals -->
+      <div>
+        <h3 class="text-xl font-semibold text-blue-400 mb-2">Professional Goals</h3>
+        <ul class="list-disc list-inside space-y-2">
+          <li>Gain deeper expertise in software development and emerging technologies.</li>
+          <li>Work on impactful projects that contribute to real-world solutions.</li>
+          <li>Continue formal education or certifications to advance my career.</li>
+          <li>Develop leadership and teamwork skills through collaboration.</li>
+        </ul>
+      </div>
+
+      <!-- Action Steps -->
+      <div>
+        <h3 class="text-xl font-semibold text-purple-400 mb-2">Action Steps</h3>
+        <ul class="list-disc list-inside space-y-2">
+          <li>Set clear and measurable milestones for each goal.</li>
+          <li>Engage with mentors and professional communities regularly.</li>
+          <li>Allocate time weekly for learning and personal development.</li>
+          <li>Stay adaptable and open to new opportunities and challenges.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Resume Page -->
+<section id="resume" class="pt-16 px-4 pb-16 text-white animate-rgb">
+  <h2 class="text-3xl font-bold mb-6 text-center neon-solid-glow text-white">Resume Page</h2>
+
+  <div class="bg-[#2A2A2A] rounded-xl p-6 shadow-lg hover:shadow-xl transition max-w-4xl mx-auto border border-white/20">
+    <div class="space-y-6 text-gray-200">
+
+      <!-- Whole Page Resume -->
+      <div>
+        <h3 class="text-xl font-semibold text-cyan-300 mb-2">My Whole Page Resume</h3>
+        <p class="mb-4">Below is a full view of my resume, showcasing my education, experience, and skills.</p>
+        <div class="w-full h-[600px] border border-white/10 rounded overflow-hidden">
+          <iframe src="assets/ALLENJAMES-DATUIN_CV.pdf" class="w-full h-full" frameborder="0"></iframe>
+        </div>
+      </div>
+
+      <!-- Downloadable Curriculum Vitae -->
+      <div>
+        <h3 class="text-xl font-semibold text-green-300 mt-8 mb-2">Downloadable Curriculum Vitae</h3>
+        <p class="mb-4">You can also download a copy of my CV for offline viewing or sharing.</p>
+        <a href="assets/ALLENJAMES-DATUIN_CV.pdf" download class="inline-block bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">
+          Download CV
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+   <!-- Contact -->
+<section id="contact" class="p-8 animate-rgb bg-gradient-to-r from-red-500 via-green-500 to-blue-500 bg-[length:400%_400%] text-white">
+  <h3 class="text-3xl font-bold mb-4 text-white text-center drop-shadow-[0_0_20px_rgba(255,255,255,0.9)]">
+    Contact Me
+  </h3>           
+
+<div class="px-4 sm:px-0">
+  <form action="https://formspree.io/f/movdrjrq"
+  method="POST"
+  enctype="multipart/form-data" class="grid gap-4 max-w-md mx-auto mb-6" onsubmit="handleSubmit(event)">
+    <input type="text" name="text" placeholder="Name" class="border border-white bg-transparent text-white p-2 rounded placeholder-white" required />
+    <input type="email" name="email" placeholder="Email" class="border border-white bg-transparent text-white p-2 rounded placeholder-white" required />
+    <textarea placeholder="Message" name="Message" class="border border-white bg-transparent text-white p-2 rounded placeholder-white" rows="4" required></textarea>
+    <button type="submit" class="btn-rgb-blue text-white font-semibold p-2 rounded shadow-lg 
+      focus:outline-none focus:ring-4 focus:ring-blue-300 
+      transition-all duration-500 hover:brightness-110">
+      Send
+    </button>
+  </form>
+</div>
+
+
+  <!-- Social Media Icons -->
+<div class="flex justify-center gap-6 text-2xl">
+  <a href="https://www.facebook.com/Ajames.datuin0901" target="_blank" class="hover:scale-110 hover:shadow-lg hover:text-blue-300 transition-all duration-300">
+    <i class="fab fa-facebook-f"></i><span class="sr-only">Facebook</span>
+  </a>
+  <a href="https://www.instagram.com/allenski_01" target="_blank" class="hover:scale-110 hover:shadow-lg hover:text-pink-300 transition-all duration-300">
+    <i class="fab fa-instagram"></i><span class="sr-only">Instagram</span>
+  </a>
+  <a href="https://t.me/AJames_01" target="_blank" class="hover:scale-110 hover:shadow-lg hover:text-blue-200 transition-all duration-300">
+    <i class="fab fa-telegram"></i><span class="sr-only">Telegram</span>
+  </a>
+  <a href="https://github.com/AJamesGit01" target="_blank" class="hover:scale-110 hover:shadow-lg hover:text-gray-300 transition-all duration-300">
+    <i class="fab fa-github"></i><span class="sr-only">GitHub</span>
+  </a>
+</div>
+
+</section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white text-center p-4 mt-8">
+      &copy; 2025 My Personal Portfolio. All rights reserved.
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
